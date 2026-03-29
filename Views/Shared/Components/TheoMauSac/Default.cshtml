@@ -1,0 +1,63 @@
+@model List<tMauSac>
+
+<li class="menu_item has-children">
+  <a href="#">
+    Màu sắc
+    <i class="fa fa-angle-down"></i>
+  </a>
+  <ul class="menu_selection">
+    @foreach(var item in Model)
+    {
+        var getUrl = "http://localhost:5011/api/productapi/" + @item.MaMauSac;
+        <li><a style="cursor: pointer" onclick="showProductByColor('@getUrl')">@item.TenMauSac</a></li>
+        
+    }
+  </ul>
+</li>
+
+<script>
+    function showProductByColor(getUrl){
+        var str='';
+        $.ajax({
+            type: 'GET',
+            url: getUrl, 
+            dataType: 'json', 
+            success: function(data){
+                $.each(data, function(key, val){
+                        str += `
+                            <div class="product-item men">
+                  <div class="product discount product_filter">
+                    <div class="product_image">
+                      <img src="/template/images/${val.anhDaiDien.trim()}" alt="${val.tenSP}" />
+                    </div>
+                    <div class="favorite favorite_left"></div>
+                    <div
+                      class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"
+                    >
+                      <span>-$20</span>
+                    </div>
+                    <div class="product_info">
+                      <h6 class="product_name">
+                        <a href="single.html"
+                          >${val.tenSP}</a
+                        >
+                      </h6>
+                      <div class="product_price">
+                        ${val.donGiaBan}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="red_button add_to_cart_button">
+                    <a href="/Home/XoaSanPham?maSanPham=${val.maSP.trim()}">Remove</a>
+                  </div>
+                </div>
+                `;
+                });
+                $('#displayProducts').html(str);
+            },
+            error: function(xhr){
+                alert(xhr.responseText)
+            }
+        });
+    }
+</script>
