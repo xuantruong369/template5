@@ -1,9 +1,3 @@
-# Cau 1
+## Dieu kien
 
-# Cau 2
-
-# Cau 3
-
-# Cau 4
-
-# Cau 5
+Cai san git va .Net 8
